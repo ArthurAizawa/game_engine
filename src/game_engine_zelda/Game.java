@@ -1,6 +1,10 @@
 package game_engine_zelda;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -11,13 +15,16 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private boolean isRunning = true;
 	
-	public final int WIDTH = 160;
-	public final int HEIGHT = 120;
-	public final int SCALE = 3;
+	private final int WIDTH = 160;
+	private final int HEIGHT = 120;
+	private final int SCALE = 3;
+	
+	private BufferedImage image;
 	
 	public Game() {
-		this.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
-		initFrame();	
+		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		initFrame();
 	}
 	
 	public void initFrame() {
@@ -50,7 +57,20 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void render() {
+		BufferStrategy bs = this.getBufferStrategy();
+		if(bs == null) {
+			this.createBufferStrategy(3); //sequencia de buffer para otimziar a renderização
+			return;
+		}
+		//manipulando imagem
+		Graphics g = image.getGraphics();
+		g.setColor(new Color(40,40,40));
+		g.fillRect(0, 0, 160, 120);
+		g = bs.getDrawGraphics();
+		//exibindo imagem na tela
+		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
 		
+		bs.show();
 	}
 	
 	@Override
