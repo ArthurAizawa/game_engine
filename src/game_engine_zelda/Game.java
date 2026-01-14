@@ -1,4 +1,5 @@
 package game_engine_zelda;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,19 +15,20 @@ public class Game extends Canvas implements Runnable {
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	
+
 	private final int WIDTH = 160;
 	private final int HEIGHT = 120;
 	private final int SCALE = 3;
-	
+
 	private BufferedImage image;
-	
+
 	public Game() {
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		initFrame();
 	}
-	
+
+
 	public void initFrame() {
 		frame = new JFrame("Game Ingine");
 		frame.add(this);
@@ -36,7 +38,7 @@ public class Game extends Canvas implements Runnable {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
-	
+
 	public synchronized void start() {
 		thread = new Thread(this);
 		isRunning = true;
@@ -44,35 +46,35 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public synchronized void stop() {
-		
+
 	}
-	
+
 	public static void main(String args[]) {
 		Game game = new Game();
 		game.start();
 	}
-	
+
 	public void tick() {
-		
+
 	}
-	
+
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
-		if(bs == null) {
-			this.createBufferStrategy(3); //sequencia de buffer para otimziar a renderização
+		if (bs == null) {
+			this.createBufferStrategy(3); // sequencia de buffer para otimziar a renderização
 			return;
 		}
-		//manipulando imagem
+		// manipulando imagem
 		Graphics g = image.getGraphics();
-		g.setColor(new Color(40,40,40));
+		g.setColor(new Color(40, 40, 40));
 		g.fillRect(0, 0, 160, 120);
 		g = bs.getDrawGraphics();
-		//exibindo imagem na tela
-		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
-		
+		// exibindo imagem na tela
+		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+
 		bs.show();
 	}
-	
+
 	@Override
 	public void run() {
 		long lasTime = System.nanoTime();
@@ -81,25 +83,24 @@ public class Game extends Canvas implements Runnable {
 		double delta = 0;
 		int frames = 0;
 		double timer = System.currentTimeMillis();
-		while(isRunning) {
+		while (isRunning) {
 			long now = System.nanoTime();
 			delta += (now - lasTime) / ns;
 			lasTime = now;
-			if(delta >= 1) {
+			if (delta >= 1) {
 				tick();
 				render();
 				frames++;
 				delta--;
 			}
-			
-			if(System.currentTimeMillis() - timer >= 1000) {
+
+			if (System.currentTimeMillis() - timer >= 1000) {
 				System.out.println("FPS: " + frames);
 				frames = 0;
 				timer += 1000;
 			}
 		} // fim while
-		
+
 	}
 
 }
-
