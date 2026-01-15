@@ -1,4 +1,4 @@
-package game_engine_zelda;
+package game_engine_zelda.main;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -66,8 +66,8 @@ public class Game extends Canvas implements Runnable {
 		}
 		// manipulando imagem
 		Graphics g = image.getGraphics();
-		g.setColor(new Color(40, 40, 40));
-		g.fillRect(0, 0, 160, 120);
+		g.setColor(new Color(0, 0, 0));
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 		g = bs.getDrawGraphics();
 		// exibindo imagem na tela
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
