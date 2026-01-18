@@ -6,8 +6,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
+
+import game_engine_zelda.entities.Entity;
+import game_engine_zelda.entities.Player;
+import game_engine_zelda.graficos.Spritesheet;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable {
@@ -16,16 +22,25 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private boolean isRunning = true;
 
-	private final int WIDTH = 160;
-	private final int HEIGHT = 120;
+	private final int WIDTH = 1040;
+	private final int HEIGHT = 880;
 	private final int SCALE = 3;
 
 	private BufferedImage image;
+	
+	public Spritesheet spritesheet;
+	public List<Entity> entities;
 
 	public Game() {
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		initFrame();
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		
+		entities = new ArrayList<Entity>();
+		spritesheet = new Spritesheet("/spritesheet.png");
+		
+		Player player = new Player(0, 0, 18, 26, spritesheet.getSprite(0, 0, 18, 26));
+		entities.add(player);
 	}
 
 
@@ -55,7 +70,10 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void tick() {
-
+		for(int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			e.tick();
+		}
 	}
 
 	public void render() {
@@ -66,8 +84,14 @@ public class Game extends Canvas implements Runnable {
 		}
 		// manipulando imagem
 		Graphics g = image.getGraphics();
-		g.setColor(new Color(0, 0, 0));
+		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		for(int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			e.render(g);
+		}
+		g.dispose();
 		g = bs.getDrawGraphics();
 		// exibindo imagem na tela
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
