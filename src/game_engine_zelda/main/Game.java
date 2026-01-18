@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -16,22 +18,25 @@ import game_engine_zelda.entities.Player;
 import game_engine_zelda.graficos.Spritesheet;
 
 @SuppressWarnings("serial")
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas implements Runnable, KeyListener {
 
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
 
-	private final int WIDTH = 1040;
-	private final int HEIGHT = 880;
+	private final int WIDTH = 340;
+	private final int HEIGHT = 280;
 	private final int SCALE = 3;
 
 	private BufferedImage image;
 	
 	public Spritesheet spritesheet;
 	public List<Entity> entities;
+	
+	private Player player;
 
 	public Game() {
+		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		initFrame();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -39,7 +44,7 @@ public class Game extends Canvas implements Runnable {
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");
 		
-		Player player = new Player(0, 0, 18, 26, spritesheet.getSprite(0, 0, 18, 26));
+		player = new Player(0, 0, 18, 26, spritesheet.getSprite(0, 0, 18, 26));
 		entities.add(player);
 	}
 
@@ -47,7 +52,7 @@ public class Game extends Canvas implements Runnable {
 	public void initFrame() {
 		frame = new JFrame("Game Ingine");
 		frame.add(this);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,7 +89,7 @@ public class Game extends Canvas implements Runnable {
 		}
 		// manipulando imagem
 		Graphics g = image.getGraphics();
-		g.setColor(new Color(255, 255, 255));
+		g.setColor(new Color(0, 255, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		for(int i = 0; i < entities.size(); i++) {
@@ -125,6 +130,49 @@ public class Game extends Canvas implements Runnable {
 			}
 		} // fim while
 
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+		if(e.getKeyCode() == KeyEvent.VK_UP){
+			player.up = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+
+			player.down = true;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_LEFT){
+
+			player.left = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			player.right = true;
+		}
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+		if(e.getKeyCode() == KeyEvent.VK_UP){
+			player.up = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+
+			player.down = false;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_LEFT){
+
+			player.left = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			player.right = false;
+		}
 	}
 
 }
