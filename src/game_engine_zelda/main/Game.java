@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import game_engine_zelda.entities.Entity;
 import game_engine_zelda.entities.Player;
 import game_engine_zelda.graficos.Spritesheet;
+import game_engine_zelda.world.World;
 
 @SuppressWarnings("serial")
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -33,12 +34,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	public static Spritesheet spritesheet;
 	public List<Entity> entities;
 	
+	public static World world;
 	private Player player;
 
 	public Game() {
 		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		initFrame();
+		
+		//inicializando objetos:
+		world = new World("/map.png");
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		
 		entities = new ArrayList<Entity>();
