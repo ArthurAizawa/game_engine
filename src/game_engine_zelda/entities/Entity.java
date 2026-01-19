@@ -9,7 +9,7 @@ public class Entity {
 	protected int width;
 	protected int height;
 	
-	private BufferedImage sprite;
+	protected BufferedImage sprite;
 	
 	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
 		this.x = x;

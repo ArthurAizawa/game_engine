@@ -30,7 +30,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 	private BufferedImage image;
 	
-	public Spritesheet spritesheet;
+	public static Spritesheet spritesheet;
 	public List<Entity> entities;
 	
 	private Player player;
@@ -44,7 +44,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		entities = new ArrayList<Entity>();
 		spritesheet = new Spritesheet("/spritesheet.png");
 		
-		player = new Player(0, 0, 18, 26, spritesheet.getSprite(0, 0, 18, 26));
+		player = new Player(21, 28, 18, 26, spritesheet.getSprite(0, 0, 18, 25));
 		entities.add(player);
 	}
 
@@ -144,15 +144,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_UP){
 			player.up = true;
 		}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-
 			player.down = true;
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_LEFT){
-
 			player.left = true;
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			player.right = true;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_UP){
+			player.up = true;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			player.down = true;
 		}
 	}
 
@@ -163,7 +167,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_UP){
 			player.up = false;
 		}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-
 			player.down = false;
 		}
 		
@@ -172,6 +175,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			player.left = false;
 		}else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			player.right = false;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_UP){
+			player.up = false;
+		}else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			player.down = false;
 		}
 	}
 
