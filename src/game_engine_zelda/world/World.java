@@ -6,6 +6,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import game_engine_zelda.entities.Enemy;
+import game_engine_zelda.entities.Entity;
+import game_engine_zelda.entities.LifePack;
+import game_engine_zelda.main.Game;
+
 public class World {
 
 	private Tile[] tiles;
@@ -24,15 +29,20 @@ public class World {
 				for (int xx = 0; xx < map.getWidth(); xx++) {
 					for (int yy = 0; yy < map.getHeight(); yy++) {
 						int pixelAtual = pixels[xx + (yy * map.getHeight())];
+						tiles[xx+(yy*WIDTH)] = new Floor(xx*16, yy*16, Tile.TILE_FLOOR);
 
 						if (pixelAtual == 0xFF000000) {
 							tiles[xx+(yy*WIDTH)] = new Floor(xx*16, yy*16, Tile.TILE_FLOOR);
-						} else if (pixelAtual == 0xFFFFFFFF) {
+						} else if (pixelAtual == 0xFFFFFFFF) { 
 							tiles[xx+(yy*WIDTH)] = new Wall(xx*16, yy*16, Tile.TILE_WALL);
-						} else if(pixelAtual == 0x1f1fcb) {
-							tiles[xx+(yy*WIDTH)] = new Floor(xx*16, yy*16, Tile.TILE_FLOOR);
-						} else {
-							tiles[xx+(yy*WIDTH)] = new Floor(xx*16, yy*16, Tile.TILE_FLOOR);
+						} else if(pixelAtual == 0xFF1f1fcb) {
+							//player
+							Game.player.setX(xx*18);
+							Game.player.setY(yy*20);
+						} else if(pixelAtual == 0xFFff0000){
+							Game.entities.add(new Enemy(xx*15, yy*14, 15, 14, Entity.ENEMY_EN));
+						} else if(pixelAtual == 0xFFec9411 ) {
+							Game.entities.add(new LifePack(xx*9, yy*9, 18, 18, Entity.LIFEPACK_EN));
 						}
 					}
 				}

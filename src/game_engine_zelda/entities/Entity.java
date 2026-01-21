@@ -3,7 +3,11 @@ package game_engine_zelda.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import game_engine_zelda.main.Game;
+
 public class Entity {
+	public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(0, 59, 13, 13);
+	public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(0, 34, 15, 14);
 	protected double x;
 	protected double y;
 	protected int width;
