@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import game_engine_zelda.main.Game;
+import game_engine_zelda.world.Camera;
+import game_engine_zelda.world.World;
 
 public class Player extends Entity {
 
@@ -45,20 +47,20 @@ public class Player extends Entity {
 
 	public void tick() {
 		moved = false;
-		if (right) {
+		if (right && !left && !up && !down) {
 			moved = true;
 			dir = right_dir;
 			x += speed;
-		} else if (left) {
+		} else if (left && !right && !up && !down) {
 			moved = true;
 			dir = left_dir;
 			x -= speed;
 		}
-		if (up) {
+		if (up && !down && !left && !right) {
 			moved = true;
 			dir = up_dir;
 			y -= speed;
-		} else if (down) {
+		} else if (down && !up && !left && !right) {
 			moved = true;
 			dir = down_dir;
 			y += speed;
@@ -74,17 +76,22 @@ public class Player extends Entity {
 				}
 			}
 		}
+		
+		Camera.x = this.getX() - (Game.WIDTH / 2);
+		Camera.y = this.getY() - (Game.HEIGHT / 2);
+
+	
 	}
 
 	public void render(Graphics g) {
 		if (dir == right_dir) {
-			g.drawImage(rightPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		} else if (dir == left_dir) {
-			g.drawImage(leftPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}else if (dir == down_dir) {
-			g.drawImage(downPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(downPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}else if (dir == up_dir) {
-			g.drawImage(upPlayer[index], this.getX(), this.getY(), null);
+			g.drawImage(upPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 	}
 

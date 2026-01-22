@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import game_engine_zelda.main.Game;
+import game_engine_zelda.world.Camera;
 
 public class Entity {
 	public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(0, 59, 13, 13);
@@ -49,7 +50,7 @@ public class Entity {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(sprite, this.getX(), this.getY(), null);
+		g.drawImage(sprite, this.getX()-Camera.x, this.getY() - Camera.y, null);
 	}
 	
 	public void tick() {

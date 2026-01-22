@@ -19,34 +19,40 @@ public class World {
 	public World(String path) {
 		try {
 			BufferedImage map = ImageIO.read(getClass().getResource(path));
-			int[] pixels = new int[map.getWidth() * map.getWidth()];
+
+			int[] pixels = new int[map.getWidth() * map.getHeight()];
 			WIDTH = map.getWidth();
 			HEIGHT = map.getHeight();
-			tiles = new Tile[map.getWidth() * map.getWidth()];
+			tiles = new Tile[map.getWidth() * map.getHeight()];
+
 			map.getRGB(0, 0, map.getWidth(), map.getHeight(), pixels, 0, map.getWidth());
 
-			for (int i = 0; i < pixels.length; i++) {
-				for (int xx = 0; xx < map.getWidth(); xx++) {
-					for (int yy = 0; yy < map.getHeight(); yy++) {
-						int pixelAtual = pixels[xx + (yy * map.getHeight())];
-						tiles[xx+(yy*WIDTH)] = new Floor(xx*16, yy*16, Tile.TILE_FLOOR);
+			for (int xx = 0; xx < map.getWidth(); xx++) {
+				for (int yy = 0; yy < map.getHeight(); yy++) {
 
-						if (pixelAtual == 0xFF000000) {
-							tiles[xx+(yy*WIDTH)] = new Floor(xx*16, yy*16, Tile.TILE_FLOOR);
-						} else if (pixelAtual == 0xFFFFFFFF) { 
-							tiles[xx+(yy*WIDTH)] = new Wall(xx*16, yy*16, Tile.TILE_WALL);
-						} else if(pixelAtual == 0xFF1f1fcb) {
-							//player
-							Game.player.setX(xx*18);
-							Game.player.setY(yy*20);
-						} else if(pixelAtual == 0xFFff0000){
-							Game.entities.add(new Enemy(xx*15, yy*14, 15, 14, Entity.ENEMY_EN));
-						} else if(pixelAtual == 0xFFec9411 ) {
-							Game.entities.add(new LifePack(xx*9, yy*9, 18, 18, Entity.LIFEPACK_EN));
-						}
+					int pixelAtual = pixels[xx + (yy * map.getWidth())];
+
+					tiles[xx + (yy * WIDTH)] = new Floor(xx * 16, yy * 16, Tile.TILE_FLOOR);
+
+					if (pixelAtual == 0xFF000000) {
+						tiles[xx + (yy * WIDTH)] = new Floor(xx * 16, yy * 16, Tile.TILE_FLOOR);
+
+					} else if (pixelAtual == 0xFFFFFFFF) {
+						tiles[xx + (yy * WIDTH)] = new Wall(xx * 16, yy * 16, Tile.TILE_WALL);
+
+					} else if (pixelAtual == 0xFF1f1fcb) {
+						Game.player.setX(xx * 16);
+						Game.player.setY(yy * 16);
+
+					} else if (pixelAtual == 0xFFff0000) {
+						Game.entities.add(new Enemy(xx * 16, yy * 16, 16, 16, Entity.ENEMY_EN));
+
+					} else if (pixelAtual == 0xFFec9411) {
+						Game.entities.add(new LifePack(xx * 16, yy * 16, 16, 16, Entity.LIFEPACK_EN));
 					}
 				}
 			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
