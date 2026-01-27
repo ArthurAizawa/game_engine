@@ -47,20 +47,20 @@ public class Player extends Entity {
 
 	public void tick() {
 		moved = false;
-		if (right && !left && !up && !down) {
+		if (right && !left && !up && !down && World.isFree((int)(getX()+speed), getY())) {
 			moved = true;
 			dir = right_dir;
 			x += speed;
-		} else if (left && !right && !up && !down) {
+		} else if (left && !right && !up && !down && World.isFree((int)(getX()-speed), getY())) {
 			moved = true;
 			dir = left_dir;
 			x -= speed;
 		}
-		if (up && !down && !left && !right) {
+		if (up && !down && !left && !right && World.isFree(getX(), (int)(getY()-speed))) {
 			moved = true;
 			dir = up_dir;
 			y -= speed;
-		} else if (down && !up && !left && !right) {
+		} else if (down && !up && !left && !right && World.isFree(getX(), (int)(getY()+speed))) {
 			moved = true;
 			dir = down_dir;
 			y += speed;
@@ -77,7 +77,7 @@ public class Player extends Entity {
 			}
 		}
 		
-		Camera.x =  Camera.clamp(this.getX() - (Game.WIDTH / 2),0, World.WIDTH*17 - Game.WIDTH);
+		Camera.x =  Camera.clamp(this.getX() - (Game.WIDTH / 2),0, World.WIDTH*16 - Game.WIDTH);
 		Camera.y =  Camera.clamp(this.getY() - (Game.HEIGHT / 2),0, World.HEIGHT*16 - Game.HEIGHT);
 
 	
