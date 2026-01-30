@@ -6,6 +6,7 @@ import game_engine_zelda.main.Game;
 import game_engine_zelda.world.World;
 
 public class Enemy extends Entity{
+	public boolean right, up, left, down;
 	
 	private double speed = 0.8;
 
@@ -19,7 +20,7 @@ public class Enemy extends Entity{
 		} else if((int)x > Game.player.getX() && World.isFree((int)(x-speed), getY())) {
 			x-=speed;
 		}
-		if((int)y < Game.player.getY() && World.isFree(getX(), (int)(y+speed))) {
+		else if((int)y < Game.player.getY() && World.isFree(getX(), (int)(y+speed))) {
 			y+=speed;
 		} else if((int)y >Game.player.getY() && World.isFree(getX(), (int)(y-speed))) {
 			y-=speed;

@@ -172,6 +172,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 		if(e.getKeyCode() == KeyEvent.VK_UP){
 			player.up = false;
+			
 		}else if(e.getKeyCode() == KeyEvent.VK_DOWN){
 			player.down = false;
 		}
