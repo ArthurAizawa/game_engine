@@ -59,18 +59,22 @@ public class World {
 		}
 	}
 
-	public static boolean isFree(int xnext, int ynext) {
-		int x1 = xnext / TILE_SIZE;
-		int y1 = ynext / TILE_SIZE;
-		
-		int x2 = (xnext+TILE_SIZE - 1) / TILE_SIZE;
-		int y2 = ynext / TILE_SIZE;
-		
-		int x3 = xnext / TILE_SIZE;
-		int y3 = (ynext+TILE_SIZE - 1) / TILE_SIZE;
-		
-		int x4 = (xnext+TILE_SIZE - 1) / TILE_SIZE;
-		int y4= (ynext+TILE_SIZE- 1)/ TILE_SIZE;
+	public static boolean isFree(int xnext, int ynext, Entity e) {
+		int x1 = (xnext + e.maskX) / TILE_SIZE;
+		int y1 = (ynext + e.maskY) / TILE_SIZE;
+
+		int x2 = (xnext + e.maskX + e.maskW - 1) / TILE_SIZE;
+		int y2 = (ynext + e.maskY) / TILE_SIZE;
+
+		int x3 = (xnext + e.maskX) / TILE_SIZE;
+		int y3 = (ynext + e.maskY + e.maskH - 1) / TILE_SIZE;
+
+		int x4 = (xnext + e.maskX + e.maskW - 1) / TILE_SIZE;
+		int y4 = (ynext + e.maskY + e.maskH - 1) / TILE_SIZE;
+
+		// proteção de borda
+		if (x1 < 0 || y1 < 0 || x4 >= WIDTH || y4 >= HEIGHT)
+			return false;
 		
 		return !((tiles[x1 + (y1*World.WIDTH)] instanceof Wall) ||
 				(tiles[x2 + (y2*World.WIDTH)] instanceof Wall) ||

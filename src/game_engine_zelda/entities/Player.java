@@ -23,8 +23,13 @@ public class Player extends Entity {
 	private BufferedImage[] upPlayer;
 	private BufferedImage[] downPlayer;
 
-	public Player(int x, int y, int width, int height, BufferedImage sprite) {
+	public Player(int x, int y, int maskX , int maskY, int maskW, int maskH,int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
+
+	    this.maskX = 4;    // desloca pro centro
+	    this.maskY = 18;   // começa nos pés
+	    this.maskW = 8;    // largura do pé
+	    this.maskH = 8;    // altura do pé
 
 		rightPlayer = new BufferedImage[4];
 		leftPlayer = new BufferedImage[4];
@@ -46,25 +51,33 @@ public class Player extends Entity {
 	}
 
 	public void tick() {
+		
+		double nextX = x, nextY = y;
+		
 		moved = false;
-		if (right && !left && !up && !down && World.isFree((int)(getX()+speed), getY())) {
+		if (right && !left && !up && !down) {
 			moved = true;
 			dir = right_dir;
-			x += speed;
-		} else if (left && !right && !up && !down && World.isFree((int)(getX()-speed), getY())) {
+			nextX += speed;
+		} else if (left && !right && !up && !down) {
 			moved = true;
 			dir = left_dir;
-			x -= speed;
+			nextX -= speed;
 		}
-		if (up && !down && !left && !right && World.isFree(getX(), (int)(getY()-speed))) {
+		if (up && !down && !left && !right) {
 			moved = true;
 			dir = up_dir;
-			y -= speed;
-		} else if (down && !up && !left && !right && World.isFree(getX(), (int)(getY()+speed))) {
+			nextY -= speed;
+		} else if (down && !up && !left && !right) {
 			moved = true;
 			dir = down_dir;
-			y += speed;
+			nextY += speed;
 		}
+
+	    if (World.isFree((int)nextX, (int)nextY, this)) {
+	        x = nextX;
+	        y = nextY;
+	    }
 		
 		if (moved) {
 			frames++;

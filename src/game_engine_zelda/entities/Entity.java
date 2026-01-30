@@ -11,17 +11,22 @@ public class Entity {
 	public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(0, 34, 15, 14);
 	protected double x;
 	protected double y;
-	protected int width;
-	protected int height;
+	protected int width, height;
+	public int maskX, maskY, maskW, maskH;
 	
 	protected BufferedImage sprite;
 	
-	public Entity(int x, int y, int width, int height, BufferedImage sprite) {
+	public Entity(int x, int y,int width, int height, BufferedImage sprite)  {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.sprite = sprite;
+		
+		this.maskX = 0;
+		this.maskY = 0;
+		this.maskW = width;
+		this.maskH = height;
 	}
 	
 	public void setX(int newX) {
@@ -29,7 +34,7 @@ public class Entity {
 	}
 
 	public void setY(int newY) {
-		this.x = newY;
+		this.y = newY;
 	}
 
 	
