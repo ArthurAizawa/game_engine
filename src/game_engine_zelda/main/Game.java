@@ -10,9 +10,11 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
+import game_engine_zelda.entities.Enemy;
 import game_engine_zelda.entities.Entity;
 import game_engine_zelda.entities.Player;
 import game_engine_zelda.graficos.Spritesheet;
@@ -33,11 +35,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	
 	public static Spritesheet spritesheet;
 	public static List<Entity> entities;
+	public static List<Enemy> enemies;
 	
 	public static World world;
 	public static Player player;
+	
+	public static Random rand;
 
 	public Game() {
+		rand = new Random();
 		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		initFrame();
@@ -46,6 +52,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		
 		entities = new ArrayList<Entity>();
+		enemies = new ArrayList<Enemy>();
 		spritesheet = new Spritesheet("/spritesheet.png");
 		player = new Player(21, 28, 4, 16, 8, 8, 18, 26, spritesheet.getSprite(0, 0, 18, 25));
 		entities.add(player);

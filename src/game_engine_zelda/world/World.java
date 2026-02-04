@@ -44,10 +44,10 @@ public class World {
 					} else if (pixelAtual == 0xFF1f1fcb) {
 						Game.player.setX(xx * 16);
 						Game.player.setY(yy * 16);
-
 					} else if (pixelAtual == 0xFFff0000) {
-						Game.entities.add(new Enemy(xx * 16, yy * 16, 16, 16, Entity.ENEMY_EN));
-
+						Enemy enemy = new Enemy(xx * 16, yy * 16, 16, 16, Entity.ENEMY_EN);
+						Game.entities.add(enemy);
+						Game.enemies.add(enemy);
 					} else if (pixelAtual == 0xFFec9411) {
 						Game.entities.add(new LifePack(xx * 16, yy * 16, 16, 16, Entity.LIFEPACK_EN));
 					}
@@ -75,23 +75,22 @@ public class World {
 		// proteção de borda
 		if (x1 < 0 || y1 < 0 || x4 >= WIDTH || y4 >= HEIGHT)
 			return false;
-		
-		return !((tiles[x1 + (y1*World.WIDTH)] instanceof Wall) ||
-				(tiles[x2 + (y2*World.WIDTH)] instanceof Wall) ||
-				(tiles[x3 + (y3*World.WIDTH)] instanceof Wall) ||
-				(tiles[x4 + (y4*World.WIDTH)] instanceof Wall));
+
+		return !((tiles[x1 + (y1 * World.WIDTH)] instanceof Wall) || (tiles[x2 + (y2 * World.WIDTH)] instanceof Wall)
+				|| (tiles[x3 + (y3 * World.WIDTH)] instanceof Wall)
+				|| (tiles[x4 + (y4 * World.WIDTH)] instanceof Wall));
 	}
 
 	public void render(Graphics g) {
 		int xstart = Camera.x >> 4;
 		int ystart = Camera.y >> 4;
-		
+
 		int xfinal = xstart + (Game.WIDTH >> 4);
 		int yfinal = ystart + (Game.HEIGHT >> 4);
-		
+
 		for (int xx = xstart; xx <= xfinal; xx++) {
 			for (int yy = ystart; yy <= yfinal; yy++) {
-				if(xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGHT) {
+				if (xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGHT) {
 					continue;
 				}
 				Tile tile = tiles[xx + (yy * WIDTH)];
